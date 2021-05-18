@@ -15,10 +15,11 @@ router.post('/register', async (req, res) => {
   const password = req.body.password;
 
   const emailExists = await pool.query(
-    'SELECT 1 FROM users WHERE email = $1',
+    'SELECT * FROM users WHERE email = $1',
     [email]
   );
-  if (emailExists) {
+
+  if (emailExists.rows[0]) {
     return res.status(400).send('Email already exists.');
   }
 
@@ -27,10 +28,11 @@ router.post('/register', async (req, res) => {
 
   try {
     const user = await pool.query(
-      'INSERT INTO users (email, username, password) VALUES($1, $2, $3)',
+      'INSERT INTO users (email, username, password) VALUES($1, $2, $3) RETURNING *',
       [email, username, hashedPassword]
     );
-    res.json(user.rows[0]);
+    res.json(user.rows);
+    console.log("registered");
   } catch (err) {
     res.status(400).send(err);
   }
@@ -42,21 +44,24 @@ router.post('/login', async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
+  console.log(req.body.email);
+
   const user = await pool.query(
-    'SELECT 1 FROM users WHERE email = $1',
-    [email]
+    'SELECT * FROM users WHERE email = $1',
+    [req.body.email]
   );
-  if (!user) {
+
+  if (!user.rows[0]) {
     return res.status(400).send('Email not found.');
   }
 
-  const passwordIsValid = await bcrypt.compare(req.body.password, user.password)
+  const passwordIsValid = await bcrypt.compare(req.body.password, user.rows[0].password)
   if (!passwordIsValid) {
     return res.status(400).send('Password incorrect.');
   }
 
-  const token = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN)
-  res.header('auth-token', token).send({ token: token, userId: user._id });
+  const token = jwt.sign({ id: user.rows[0].id }, process.env.SECRET_TOKEN)
+  res.header('auth-token', token).send({ token: token, id: user.rows[0].id });
 })
 
 module.exports = router;
