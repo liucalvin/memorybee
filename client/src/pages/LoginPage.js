@@ -22,6 +22,9 @@ function LoginPage() {
     } else {
       localStorage.setItem('token', response.token);
       localStorage.setItem('userId', response.id);
+      localStorage.setItem('username', response.username);
+      console.log(response);
+      alert('welcome, ' + localStorage.getItem('username'));
 
       let { from } = location.state || { from: { pathname: "/home" } };
       history.replace(from);

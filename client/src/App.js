@@ -6,6 +6,9 @@ import StartPage from './pages/StartPage';
 import RegistrationPage from './pages/RegistrationPage';
 import HomePage from './pages/HomePage';
 import PrivateRoute from './components/PrivateRoute';
+import StudyPage from './pages/StudyPage';
+import WordsPage from './pages/WordsPage';
+import AddWordPage from './pages/AddWordPage';
 
 function App() {
   return (
@@ -15,9 +18,10 @@ function App() {
           <Route path='/' exact component={StartPage} />
           <Route path='/login' exact component={LoginPage} />
           <Route path='/register' exact component={RegistrationPage} />
-          <PrivateRoute path='/home'>
-            <HomePage />
-          </PrivateRoute>
+          <PrivateRoute path='/home' exact component={HomePage} />
+          <PrivateRoute path='/study' exact component={StudyPage} />
+          <PrivateRoute path='/words' exact component={WordsPage} />
+          <PrivateRoute path='/words/add' exact component={AddWordPage} />
         </Switch>
       </Router>
     </ChakraProvider>

@@ -1,55 +1,44 @@
 import { Button } from '@chakra-ui/button';
-import { Input } from '@chakra-ui/input';
 import { Box, Flex, Heading, Text } from '@chakra-ui/layout'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { loadWords } from '../actions/storage';
 import Navbar from '../components/Navbar'
 
 function HomePage() {
 
-  const [words, setWords] = useState([{}]);
-
-  const onLoadWords = async () => {
+  async function numberOfWords() {
     const response = await loadWords();
     if (!response[0]) {
-      alert('You don\'t have any saved words!.');
+      return 0;
     } else {
-      console.log(response);
-      setWords(response);
+      return response;
     }
   }
 
   return (
-    <Flex height='100vh' width='100vw' display='table'>
+    <>
       <Navbar />
-      <Flex display='inline-table' alignItems='top' justifyContent='center'>
-        <Box p={8}>
-        <Heading mb={6} textAlign='center' float='left'>
-          Welcome
-          </Heading>
-          <Input float='right' />
-        </Box>
-        <Box>
-        {words[1] ?
-          <Box>
+      <Flex display='table'>
+        <Flex p={8} display='inline-block' alignItems='top' justifyContent='center'>
+          <Box mb={6}>
+            <Heading>Dashboard</Heading>
+          </Box>
+          <Box p={4}>
             <Text>
-              Hello
-            </Text>
-          </Box> :
-          <Button onClick={onLoadWords}>
-            Load words
-          </Button>}
-          <Text>
-          {localStorage.getItem('token')}
-          <br/>
-          {words[0].definiton}
-          </Text>
-          <Text>
-            {words.map(word => <Text>{word.definiton}</Text>)}
+              Current study session: {localStorage.getItem('current-session') ? localStorage.getItem('current-session') : 0} words
+            <br />
+            Total number of flashcards: {numberOfWords} words
           </Text>
           </Box>
+          <Link to='/study'>
+            <Button>
+              Start studying
+          </Button>
+          </Link>
+        </Flex>
       </Flex>
-    </Flex>
+    </>
   )
 }
 
