@@ -9,6 +9,8 @@ import PrivateRoute from './components/PrivateRoute';
 import StudyPage from './pages/StudyPage';
 import WordsPage from './pages/WordsPage';
 import AddWordPage from './pages/AddWordPage';
+import SettingsPage from './pages/SettingsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <PrivateRoute path='/study' exact component={StudyPage} />
           <PrivateRoute path='/words' exact component={WordsPage} />
           <PrivateRoute path='/words/add' exact component={AddWordPage} />
+          <PrivateRoute path='/settings' exact component={SettingsPage} />
+          <Route component={NotFoundPage} />
         </Switch>
       </Router>
     </ChakraProvider>

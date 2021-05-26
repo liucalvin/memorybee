@@ -18,8 +18,10 @@ function RegistrationPage() {
   const HandleSubmit = async (event) => {
     event.preventDefault();
     const response = await startRegistration(email, username, password);
-    if (!response[0].email) {
-      alert('A user with that email already exists.');
+    if (!response[0] || !response[0].email) {
+      console.log(response.message);
+      // 'A user with that email already exists.'
+      alert(response.message ? response.message : response);
     } else {
       console.log(response);
 

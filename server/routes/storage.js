@@ -39,7 +39,7 @@ router.post('/:userId/words', verify, async (req, res) => {
       'SELECT * FROM words WHERE word = $1 AND user_id = $2',
       [word, userId]
     );
-
+    console.log(wordExists);
     if (wordExists.rows[0]) {
       return res.status(400).send('Word already saved.');
     }
@@ -53,14 +53,16 @@ router.post('/:userId/words', verify, async (req, res) => {
 
   } catch (error) {
     console.log(error)
-    res.status(400).send(error.message);
+    res.status(400).send(error);
   }
 })
 
 router.get('/:userId/words', verify, async (req, res) => {
   try {
+    const userId = req.params.userId;
     const words = await pool.query(
-      'SELECT word, definition, examples FROM users INNER JOIN words ON words.user_id = users.id'
+      'SELECT word, definition, examples FROM words WHERE words.user_id = $1',
+      [userId]
     );
 
     if (!words.rows[0]) {
@@ -68,7 +70,7 @@ router.get('/:userId/words', verify, async (req, res) => {
     }
 
     res.send(words.rows);
-    
+
   } catch (error) {
     console.log(error.message)
     res.status(400).send(error.message);

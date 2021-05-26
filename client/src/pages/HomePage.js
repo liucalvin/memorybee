@@ -7,15 +7,16 @@ import Navbar from '../components/Navbar'
 
 function HomePage() {
 
-  async function numberOfWords() {
+  const numberOfWords = async () => {
     const response = await loadWords();
     if (!response[0]) {
       return 0;
     } else {
-      return response;
+      console.log(response)
+      return 1; 
     }
   }
-
+  
   return (
     <>
       <Navbar />
@@ -24,7 +25,7 @@ function HomePage() {
           <Box mb={6}>
             <Heading>Dashboard</Heading>
           </Box>
-          <Box p={4}>
+          <Box p={4} mb={4}>
             <Text>
               Current study session: {localStorage.getItem('current-session') ? localStorage.getItem('current-session') : 0} words
             <br />

@@ -23,16 +23,17 @@ export const startRegistration = async (email, username, password) => {
       username: username,
       password: password
     });
+    console.log(response);
     return response.data;
-  } catch (error) {
-    return error.message;
+  } catch (err) {
+    console.log(err.response.data);
+    return err.response.data;
   }
 }
 
 export function onLogout() {
-  localStorage.setItem('token', null);
-  localStorage.setItem('userId', null);
-  console.log("poop");
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
   console.log(localStorage.getItem('token'));
 }
 

@@ -1,5 +1,5 @@
 import { Image } from '@chakra-ui/image'
-import { AspectRatio, Box, Center, Flex, Heading, HStack, List, ListItem, Text } from '@chakra-ui/layout'
+import { Box, Flex, HStack, Text } from '@chakra-ui/layout'
 import { Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/menu'
 import React from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
@@ -36,34 +36,37 @@ function Navbar() {
           <HStack alignItems='center' spacing={8} float='left'>
             <Box w={180}>
               <Link to='/home'>
-              <Image src='/logo.png' objectFit='contain' rounded='full' cursor='initial' />
+                <Image src='/logo.png' objectFit='contain' rounded='full' />
               </Link>
             </Box>
             <HStack alignItems='center' spacing={4} >
               <NavLink to='/words'>My Words</NavLink>
               <NavLink to='/words/add'>Add a Word</NavLink>
+              <NavLink to='/study'>Study</NavLink>
             </HStack>
           </HStack>
           <Flex float='right' mr={8}>
-            <Center w='40px' h='40px' m='15px' bg='white' rounded='full'  >
-              <Menu>
-                <MenuButton rounded='full' cursor='initial' >
-                  <Text fontSize='2xl' textTransform='uppercase' >{username.charAt(0)}</Text>
-                </MenuButton>
-                <MenuList>
-                  <MenuItem _hover={{bg: 'white', cursor: 'text'}} fontWeight='semibold' >
-                    Hi, {username}
-                  </MenuItem>
-                  <MenuDivider />
+            <Menu>
+              <MenuButton rounded='full' w='40px' h='40px' m='15px' bg='white' rounded='full' cursor='pointer'  >
+                <Text fontSize='2xl' textTransform='uppercase' >{username.charAt(0)}</Text>
+              </MenuButton>
+              <MenuList>
+                <MenuItem _hover={{ bg: 'white', cursor: 'text' }} fontWeight='semibold' >
+                  Hi, {username}
+                </MenuItem>
+                <MenuDivider />
+                <Link to='/settings'>
                   <MenuItem>
-                    <Link to='/settings'>Settings</Link>
-                  </MenuItem>
+                    Settings
+                    </MenuItem>
+                </Link>
+                <Link to='/'>
                   <MenuItem onClick={handleLogout}>
-                    <Link to='/'>Logout</Link>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Center>
+                    Logout
+                    </MenuItem>
+                </Link>
+              </MenuList>
+            </Menu>
           </Flex>
         </Box>
       </Flex>

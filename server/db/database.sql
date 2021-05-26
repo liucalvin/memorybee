@@ -10,7 +10,8 @@ CREATE TABLE users (
 );
 
 CREATE TABLE words (
-  word TEXT PRIMARY KEY,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  word TEXT,
   user_id UUID,
   definition TEXT[],
   examples TEXT[]
